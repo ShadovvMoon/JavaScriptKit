@@ -71,21 +71,7 @@ public class JSClosure: JSObject, JSClosureProtocol {
         })
     }
 
-    public init(this: @escaping ([JSValue]) -> JSValue) {
-        // 1. Fill `id` as zero at first to access `self` to get `ObjectIdentifier`.
-        super.init(id: 0)
-        let objectId = ObjectIdentifier(self)
-        let funcRef = JavaScriptHostFuncRef(bitPattern: Int32(objectId.hashValue))
-        // 2. Retain the given this in static storage by `funcRef`.
-        sharedClosures[funcRef] = this
-        // 3. Create a new JavaScript function which calls the given Swift function.
-        var objectRef: JavaScriptObjectRef = 0
-        _create_this_function(funcRef, &objectRef)
-        hostFuncRef = funcRef
-        id = objectRef
-    }
-
-    public init(_ body: @escaping ([JSValue]) -> JSValue) {
+    public init(_ body: @escaping ([JSValue]) -> JSValue, this: Bool = false) {
         // 1. Fill `id` as zero at first to access `self` to get `ObjectIdentifier`.
         super.init(id: 0)
         let objectId = ObjectIdentifier(self)
@@ -94,8 +80,11 @@ public class JSClosure: JSObject, JSClosureProtocol {
         sharedClosures[funcRef] = body
         // 3. Create a new JavaScript function which calls the given Swift function.
         var objectRef: JavaScriptObjectRef = 0
-        _create_function(funcRef, &objectRef)
-
+        if this {
+            _create_this_function(funcRef, &objectRef)
+        } else {
+            _create_function(funcRef, &objectRef)
+        }
         hostFuncRef = funcRef
         id = objectRef
     }
