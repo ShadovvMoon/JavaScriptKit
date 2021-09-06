@@ -71,7 +71,7 @@ public class JSClosure: JSObject, JSClosureProtocol {
         })
     }
 
-    public init(this: @escaping (JSObject, [JSValue]) -> JSValue) {
+    public init(this: @escaping ([JSValue]) -> JSValue) {
         // 1. Fill `id` as zero at first to access `self` to get `ObjectIdentifier`.
         super.init(id: 0)
         let objectId = ObjectIdentifier(self)
