@@ -448,6 +448,18 @@ export class SwiftRuntime {
                 }
                 writeValue(result, kind_ptr, payload1_ptr, payload2_ptr, false);
             },
+            swjs_create_this_function: (
+                host_func_id: number,
+                func_ref_ptr: pointer
+            ) => {
+                const func_ref = this.heap.retain(function () {
+                    return callHostFunction(
+                        host_func_id,
+                        [this] + Array.prototype.slice.call(arguments)
+                    );
+                });
+                writeUint32(func_ref_ptr, func_ref);
+            },
             swjs_create_function: (
                 host_func_id: number,
                 func_ref_ptr: pointer

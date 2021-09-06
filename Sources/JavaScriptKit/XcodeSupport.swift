@@ -78,6 +78,10 @@ import _CJavaScriptKit
         _: JavaScriptObjectRef,
         _: JavaScriptObjectRef
     ) -> Bool { fatalError() }
+    func _create_this_function(
+        _: JavaScriptHostFuncRef,
+        _: UnsafePointer<JavaScriptObjectRef>!
+    ) { fatalError() }
     func _create_function(
         _: JavaScriptHostFuncRef,
         _: UnsafePointer<JavaScriptObjectRef>!

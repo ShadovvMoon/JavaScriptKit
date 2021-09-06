@@ -228,6 +228,16 @@ __attribute__((__import_module__("javascript_kit"),
 extern bool _instanceof(const JavaScriptObjectRef obj,
                         const JavaScriptObjectRef constructor);
 
+/// `_create_this_function` creates a JavaScript thunk function that calls Swift side closure.
+/// See also comments on JSFunction.swift
+///
+/// @param host_func_id The target Swift side function called by the created thunk function.
+/// @param func_ref_ptr A result pointer of created thunk function.
+__attribute__((__import_module__("javascript_kit"),
+               __import_name__("swjs_create_this_function")))
+extern void _create_this_function(const JavaScriptHostFuncRef host_func_id,
+                             const JavaScriptObjectRef *func_ref_ptr);
+
 /// `_create_function` creates a JavaScript thunk function that calls Swift side closure.
 /// See also comments on JSFunction.swift
 ///
